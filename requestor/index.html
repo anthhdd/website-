@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#39283f">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#9d6e9e">
 <title>Condo Requestor — City Request</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#ffb47f;--cream:#fff1ec;--muted:#d8b5ce;--line:#765878;--pink:#e99ac0;--lav:#a58bc7}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(135deg,#493653 0%,#765579 36%,#b77d9e 72%,#e99b9e 100%);color:var(--cream);font-family:Inter,Arial,sans-serif}
-body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 85% 0%,#ffc18c77,transparent 38%),radial-gradient(ellipse at 0% 85%,#a58bc755,transparent 42%)}
+:root{--gold:#ffb47f;--cream:#fff1ec;--muted:#d8b5ce;--line:#765878;--pink:#e99ac0;--lav:#a58bc7}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#9b70a0 0%,#d88da9 38%,#ffb47f 72%,#f8c18d 100%);color:var(--cream);font-family:Inter,Arial,sans-serif;position:relative}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 68%,#ffd19b 0%,#ffb78e 25%,transparent 55%),linear-gradient(180deg,#a879ad 0%,#d88eae 45%,#ffbd8b 78%,#e6a1a7 100%)}
 header{height:76px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #fff3;background:#392b4955;backdrop-filter:blur(14px)}.logo{font:900 23px 'Barlow Condensed';letter-spacing:2px}.logo span{color:var(--gold)}header a{font-size:10px;font-weight:800;letter-spacing:1px;color:#f5d8e7;text-decoration:none}header a:hover{color:#ffc18c}
 main{max-width:900px;margin:auto;padding:54px 22px 70px}.eyebrow{font-size:10px;letter-spacing:3px;color:#ffd0a7;font-weight:800}h1{font:900 clamp(49px,8vw,78px)/.9 'Barlow Condensed';margin:15px 0 12px;text-shadow:0 4px 18px #38263f44}h1 span{color:#ffc18c}.sub{color:#f3dce9;font-size:13px;line-height:1.7;margin:0 0 29px}
 .panel{background:linear-gradient(145deg,#513d5dEE,#392d4fee);border:1px solid #e9b2d477;border-radius:12px;padding:25px;box-shadow:0 25px 70px #30203e55;backdrop-filter:blur(14px)}.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.panelhead strong{font-size:11px;letter-spacing:1.5px}.status{font-size:9px;color:#bce8cf;letter-spacing:1px}.status:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#a7e4b9;margin-right:7px}
@@ -46,9 +46,17 @@ const $ = id => document.getElementById(id);
 let currentKey = "";
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function robloxJSON(url){
- const response = await fetch(url, {headers:{"Accept":"application/json"}});
- if(!response.ok) throw new Error("Roblox API respondió con HTTP "+response.status);
- return response.json();
+ let response;
+ try {
+  response = await fetch(url,{headers:{"Accept":"application/json"}});
+  if(!response.ok) throw new Error("HTTP "+response.status);
+  return await response.json();
+ } catch(directError) {
+  const proxyUrl="https://api.allorigins.win/raw?url="+encodeURIComponent(url);
+  response=await fetch(proxyUrl,{headers:{"Accept":"application/json"}});
+  if(!response.ok) throw new Error("Roblox no respondió (directo y proxy). HTTP "+response.status);
+  return await response.json();
+ }
 }
 function shuffle(items){
  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];}
@@ -122,7 +130,7 @@ $("generate").addEventListener("click",async()=>{
   $("created").textContent=dateText(data.created);$("updated").textContent=dateText(data.updated);
   $("thumb").src=data.iconUrl||"";$("gameLink").href=makeLink(data.placeId);currentKey=ACCESS_KEY;
   $("keyValue").textContent=currentKey;$("keybox").classList.remove("show");$("result").classList.add("show");$("status").textContent="RANDOM GAME FOUND";btn.textContent="GENERATE ANOTHER GAME ↗";
- }catch(e){$("error").textContent=e.message+" Si aparece un error de CORS, Roblox está bloqueando las peticiones desde GitHub Pages y hará falta un proxy externo.";$("error").classList.add("show");$("status").textContent="ERROR";btn.textContent="TRY AGAIN ↗";}
+ }catch(e){$("error").textContent=e.message+" Roblox puede estar limitando las peticiones o el proxy temporal. Espera unos segundos y vuelve a intentarlo.";$("error").classList.add("show");$("status").textContent="ERROR";btn.textContent="TRY AGAIN ↗";}
  finally{btn.disabled=false;}
 });
 $("showKey").addEventListener("click",()=>{if(!currentKey)return;$("keybox").classList.toggle("show")});
