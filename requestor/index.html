@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111315">
+<title>Condo Requestor — City Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f5aa35;--cream:#f4efe5;--muted:#9b968e;--line:#34383b}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0%,#3b2b17 0,transparent 34%),#101214;color:var(--cream);font-family:Inter,Arial,sans-serif}
+header{height:76px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16;background:#111315}.logo{font:900 23px 'Barlow Condensed';letter-spacing:2px}.logo span{color:var(--gold)}header a{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--muted);text-decoration:none}header a:hover{color:var(--gold)}
+main{max-width:900px;margin:auto;padding:54px 22px 70px}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:800}h1{font:900 clamp(49px,8vw,78px)/.9 'Barlow Condensed';margin:15px 0 12px}h1 span{color:var(--gold)}.sub{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 29px}
+.panel{background:linear-gradient(145deg,#1d2124,#151719);border:1px solid #373b3e;border-radius:7px;padding:25px;box-shadow:0 25px 70px #0008}.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.panelhead strong{font-size:11px;letter-spacing:1.5px}.status{font-size:9px;color:#a8d8a0;letter-spacing:1px}.status:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#8fca83;margin-right:7px}
+button{font-family:inherit;font-weight:900;letter-spacing:1px;cursor:pointer;border:0}.generate{width:100%;padding:17px;background:var(--gold);color:#151515;border-radius:3px;font-size:11px;transition:.2s}.generate:hover{background:#ffc45d;transform:translateY(-1px)}.generate:disabled{opacity:.55;cursor:wait}
+.error{display:none;margin-top:16px;padding:13px 15px;background:#48251f;border:1px solid #8c493a;border-radius:4px;color:#ffd4c9;font-size:11px;line-height:1.6}.error.show{display:block}
+.result{display:none;margin-top:22px;border:1px solid var(--line);border-radius:5px;overflow:hidden}.result.show{display:block}.game{display:flex;gap:18px;padding:20px;background:#202427}.thumb{width:112px;height:112px;flex-shrink:0;object-fit:cover;border-radius:5px;background:#30363a}.gameinfo{min-width:0;flex:1}.tag{font-size:9px;color:#e8bd70;letter-spacing:1.3px;font-weight:800}.game h2{font-size:19px;margin:7px 0 12px;overflow-wrap:anywhere}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{padding:10px;background:#171a1c;border:1px solid #303538;border-radius:3px}.stat b{display:block;font-size:14px}.stat span{display:block;margin-top:4px;color:var(--muted);font-size:8px;letter-spacing:1px;text-transform:uppercase}
+.dates{display:flex;gap:18px;flex-wrap:wrap;padding:13px 20px;background:#191d20;color:#aaa49a;font-size:10px}.dates b{color:#eee8dd;font-weight:600}
+.actions{display:flex;gap:10px;padding:15px;background:#171a1c;flex-wrap:wrap}.action{flex:1;min-width:140px;padding:14px 12px;text-align:center;border-radius:3px;font-size:10px;text-decoration:none}.link{background:var(--gold);color:#151515}.keybtn{background:#30363a;color:var(--cream)}.keybox{display:none;padding:17px 20px;border-top:1px solid var(--line);background:#121517}.keybox.show{display:block}.keylabel{font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:9px}.keyrow{display:flex;gap:10px;align-items:center}.keyvalue{flex:1;font-family:monospace;color:#f4c36f;background:#202427;padding:13px;border-radius:3px;font-size:13px;overflow-wrap:anywhere}.copy{background:#e8e2d7;color:#151515;padding:13px;border-radius:3px;font-size:9px}
+.note{margin-top:16px;color:#777;font-size:10px;line-height:1.7}.footer{text-align:center;color:#555;font-size:9px;letter-spacing:2px;margin-top:34px}
+@media(max-width:560px){main{padding:40px 14px}.panel{padding:17px}.game{padding:14px;gap:12px}.thumb{width:78px;height:78px}.stats{grid-template-columns:repeat(2,1fr)}.actions{flex-direction:column}.action{width:100%}.game h2{font-size:16px}}
+</style></head>
+<body>
+<header><div class="logo">CITY<span>REQUEST</span></div><a href="../">← BACK TO HOME</a></header>
+<main>
+<div class="eyebrow">GROUP 34356929 · ROBLOX DISCOVERY</div><h1>CONDO <span>REQUESTOR.</span></h1>
+<p class="sub">Find a random experience made by a group member. The finder only selects games with a maximum server size of exactly 3 players.</p>
+<section class="panel">
+<div class="panelhead"><strong>🎮 &nbsp; RANDOM GAME GENERATOR</strong><span class="status" id="status">SYSTEM READY</span></div>
+<button class="generate" id="generate">GENERATE GAME&nbsp; ↗</button>
+<div class="error" id="error"></div>
+<div class="result" id="result">
+ <div class="game"><img class="thumb" id="thumb" alt="Game thumbnail"><div class="gameinfo"><div class="tag">GAME FOUND · MAX SERVER SIZE 3</div><h2 id="gameName">—</h2><div class="stats">
+ <div class="stat"><b id="playing">—</b><span>Playing now</span></div><div class="stat"><b id="maxPlayers">3</b><span>Max players</span></div><div class="stat"><b id="visits">—</b><span>Total visits</span></div>
+ </div></div></div>
+ <div class="dates"><span>CREATED &nbsp;<b id="created">—</b></span><span>UPDATED &nbsp;<b id="updated">—</b></span></div>
+ <div class="actions"><a class="action link" id="gameLink" href="#" target="_blank" rel="noopener">GET GAME LINK ↗</a><button class="action keybtn" id="showKey">🔑 &nbsp; SHOW KEY</button></div>
+ <div class="keybox" id="keybox"><div class="keylabel">LINKVERTISE ACCESS KEY</div><div class="keyrow"><div class="keyvalue" id="keyValue">••••••••••••</div><button class="copy" id="copy">COPY KEY</button></div></div>
+</div>
+<p class="note">Searches members of the configured Roblox group and checks their public experiences. Results can take a little while. A server-side API is required; GitHub Pages cannot run the scanner itself.</p>
+</section><div class="footer">CITY REQUEST · COMMUNITY PROJECT · 2026</div>
+</main>
+<script>
+/* Set this to your deployed Render backend URL, without a trailing slash. */
+const API_BASE = "https://YOUR-RENDER-SERVICE.onrender.com";
+const $ = id => document.getElementById(id);
+let currentKey = "";
+function dateText(value){if(!value)return "—";const d=new Date(value);return isNaN(d)?"—":d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});}
+$("generate").addEventListener("click",async()=>{
+ const btn=$("generate");btn.disabled=true;btn.textContent="SEARCHING GROUP MEMBERS...";$("status").textContent="SCANNING";$("error").classList.remove("show");
+ try{
+  if(API_BASE.includes("YOUR-RENDER-SERVICE"))throw new Error("The backend is not connected yet. Deploy backend.py on Render and set API_BASE in requestor/index.html.");
+  const response=await fetch(API_BASE+"/api/generate",{method:"GET",headers:{"Accept":"application/json"}});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"The server could not find a game. Please try again.");
+  $("gameName").textContent=data.name||"Roblox Game";$("playing").textContent=Number(data.playing||0).toLocaleString();$("maxPlayers").textContent=data.maxPlayers??3;$("visits").textContent=Number(data.visits||0).toLocaleString();
+  $("created").textContent=dateText(data.created);$("updated").textContent=dateText(data.updated);
+  $("thumb").src=data.iconUrl||"";$("gameLink").href=data.linkvertiseUrl||data.gameUrl||"#";currentKey=data.key||"";
+  $("keyValue").textContent=currentKey||"Key unavailable";$("keybox").classList.remove("show");$("result").classList.add("show");$("status").textContent="GAME FOUND";btn.textContent="GENERATE ANOTHER GAME ↗";
+ }catch(e){$("error").textContent=e.message;$("error").classList.add("show");$("status").textContent="ERROR";btn.textContent="TRY AGAIN ↗";}
+ finally{btn.disabled=false;}
+});
+$("showKey").addEventListener("click",()=>{if(!currentKey)return;$("keybox").classList.toggle("show")});
+$("copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(currentKey);$("copy").textContent="COPIED ✓"}catch(e){$("copy").textContent="SELECT THE KEY"}setTimeout(()=>$("copy").textContent="COPY KEY",1500)});
+</script></body></html>
